@@ -49,6 +49,26 @@ object ActorsIntro extends App {
   val person2 = actorSystem.actorOf(Person.props("Bob Sidious"))
   person2 ! "Bob"
 
+  //Even a more simple actor thar reduces a list
+  class OperationRegaza(numberList: List[Int]) extends Actor {
+    override def receive: Receive = {
+      case message : List[Int] => println(numberList.reduceLeft(_ + _) + message.reduceLeft(_ + _))
+      case _ =>
+    }
+  }
+
+  //Companion object
+  object OperationRegaza {
+    def props(numberList: List[Int]) = Props(new OperationRegaza(numberList))
+  }
+
+  //Calling my simple reducer actor
+  val listActorReducer = actorSystem.actorOf(OperationRegaza.props(List(1,5,10,133,55,12,131,77,11)))
+  println(listActorReducer ! List(1000,3,4))
+
+  //How do you retrive the values of an actor in the main thread?
+
+
 
 
 
