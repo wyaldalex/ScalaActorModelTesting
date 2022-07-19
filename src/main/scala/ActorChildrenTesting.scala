@@ -11,7 +11,6 @@ object ActorChildrenTesting extends App{
     import Parent._
 
     override def receive: Receive = {
-
       case CreateChild(name) =>
         println(s"${self.path} creating child")
         //create a new actor Here
@@ -21,7 +20,6 @@ object ActorChildrenTesting extends App{
     def withChild(childRef: ActorRef) : Receive = {
       case TellChild(message) => childRef forward message
     }
-
   }
 
   class Child extends Actor {
