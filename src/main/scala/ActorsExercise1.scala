@@ -34,6 +34,10 @@ object ActorsExercise1 extends App {
   //Exercise 2
   case class BankTransaction(id : Int, transType : String, amount : Double, ref: ActorRef)
 
+  object BankAccount {
+    case object Deposit
+    case object Withdraw
+  }
   class BankAccount extends Actor {
 
     var funds : Double = 0

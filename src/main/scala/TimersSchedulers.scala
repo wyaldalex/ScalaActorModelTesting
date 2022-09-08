@@ -15,6 +15,7 @@ object TimersSchedulers extends App {
 
   val system = ActorSystem("SchedulerTimersDemo")
   val simpleActor = system.actorOf(Props[SimpleActor])
+  val simpleActor2 = system.actorOf(Props[SimpleActor])
   system.log.info("Scheduling reminder for simple actor")
 
   import system.dispatcher
@@ -29,14 +30,14 @@ object TimersSchedulers extends App {
 
   //new form?
   val routine2 =
-    system.scheduler.scheduleWithFixedDelay(Duration.Zero, 50.milliseconds, simpleActor,"simpleActor2 hearbeat2")
+    system.scheduler.scheduleWithFixedDelay(Duration.Zero, 50.milliseconds, simpleActor2,"simpleActor2 hearbeat2 routine2")
 
   //Both get cancelled the same
   //routine.cancel()
   //routine2.cancel()
 
   //Change time depending on how long you want to keep them alive
-  system.scheduler.scheduleOnce(10 millis) {
+  system.scheduler.scheduleOnce(5000 millis) {
     routine.cancel()
     routine2.cancel()
   }
@@ -76,7 +77,7 @@ object TimersSchedulers extends App {
     system.scheduler.scheduleWithFixedDelay(Duration.Zero, 50.milliseconds, selfClosingActor,"ping")
 
   //unless we decice to kill
-  system.scheduler.scheduleOnce(5 seconds){
+  system.scheduler.scheduleOnce(1 seconds){
     selfClosingActor ! "timeout"
   }
 
